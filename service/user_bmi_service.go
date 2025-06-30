@@ -2,17 +2,18 @@ package service
 
 import (
 	"gc3-p2-gym-app-JerSbs/config"
+	"gc3-p2-gym-app-JerSbs/dto"
 	"gc3-p2-gym-app-JerSbs/models"
 	"gc3-p2-gym-app-JerSbs/utils"
 )
 
 type UserBMIResult struct {
-	ID      uint   `json:"id"`
-	Name    string `json:"name"`
-	Email   string `json:"email"`
-	Weight  int    `json:"weight"`
-	Height  int    `json:"height"`
-	BMIData string `json:"bmi_data"`
+	ID      uint         `json:"id"`
+	Name    string       `json:"name"`
+	Email   string       `json:"email"`
+	Weight  int          `json:"weight"`
+	Height  int          `json:"height"`
+	BMIData *dto.BMIData `json:"bmi_data"`
 }
 
 func GetUserBMIService(userID uint) (*UserBMIResult, error) {
