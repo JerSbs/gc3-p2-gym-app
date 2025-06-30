@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/labstack/echo/v4"
@@ -43,9 +44,8 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-	log.Println("Server started at http://localhost:" + port)
 
-	if err := e.Start(":" + port); err != nil {
-		log.Fatal("Failed to start server:", err)
+	if err := e.Start(":" + port); err != http.ErrServerClosed {
+		log.Fatal(err)
 	}
 }
