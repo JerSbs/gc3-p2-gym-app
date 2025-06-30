@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func ExerciseRoutes(e *echo.Echo) {
+func RegisterExerciseRoutes(e *echo.Echo) {
 	ex := e.Group("/api/exercises")
 	ex.Use(middleware.JWTMiddleware)
 

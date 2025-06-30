@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func LogRoutes(e *echo.Echo) {
+func RegisterLogRoutes(e *echo.Echo) {
 	log := e.Group("/api/logs")
 	log.Use(middleware.JWTMiddleware)
 
