@@ -1,1 +1,1 @@
-web: ./main
+web: bin/gc3-p2-gym-app-JerSbs
