@@ -1,5 +1,16 @@
 basePath: /
 definitions:
+  dto.BMIResponse:
+    properties:
+      bmi:
+        type: number
+      height:
+        type: string
+      weight:
+        type: string
+      weight_category:
+        type: string
+    type: object
   dto.ExerciseCreateRequest:
     properties:
       description:
@@ -145,11 +156,11 @@ definitions:
     - description
     - name
     type: object
-host: localhost:8080
+host: gc3-p2-gym-app-8a1fe5dad844.herokuapp.com
 info:
   contact: {}
-  description: RESTful API for managing users, workouts, exercises, and logs.
-  title: Workout API
+  description: RESTful API for Gym workout tracking
+  title: GC3 - Gym App API
   version: "1.0"
 paths:
   /api/exercises:
@@ -320,6 +331,32 @@ paths:
       summary: Get user profile
       tags:
       - users
+  /api/users/bmi:
+    get:
+      description: Calculate BMI using user's weight and height from DB, call external
+        API
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BMIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get BMI from 3rd party API
+      tags:
+      - Users
   /api/users/login:
     post:
       consumes:

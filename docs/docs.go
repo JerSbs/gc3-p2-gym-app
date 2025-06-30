@@ -279,6 +279,46 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/users/bmi": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Calculate BMI using user's weight and height from DB, call external API",
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get BMI from 3rd party API",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BMIResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/users/login": {
             "post": {
                 "description": "Authenticate user with email and password",
@@ -653,6 +693,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.BMIResponse": {
+            "type": "object",
+            "properties": {
+                "bmi": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "string"
+                },
+                "weight": {
+                    "type": "string"
+                },
+                "weight_category": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.ExerciseCreateRequest": {
             "type": "object",
             "required": [
@@ -886,13 +943,15 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "gc3-p2-gym-app-8a1fe5dad844.herokuapp.com",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "Workout API",
-	Description:      "RESTful API for managing users, workouts, exercises, and logs.",
+	Title:            "GC3 - Gym App API",
+	Description:      "RESTful API for Gym workout tracking",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
+	LeftDelim:        "{{",
+	RightDelim:       "}}",
 }
 
 func init() {
