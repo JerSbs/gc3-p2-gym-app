@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"strconv"
@@ -11,7 +12,7 @@ import (
 )
 
 func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
-	// Step 1: Call /metric?weight=...&height=...
+	// Step 1: Call /metric
 	metricURL := fmt.Sprintf("https://%s/metric?weight=%.2f&height=%.2f",
 		os.Getenv("BMI_API_HOST"), weight, height)
 
@@ -28,25 +29,26 @@ func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
 	}
 	defer res.Body.Close()
 
-	// decode /metric response
+	// Read and log raw body (for debugging if needed)
+	bodyBytes, _ := io.ReadAll(res.Body)
+	fmt.Println("📦 /metric raw response:", string(bodyBytes))
+
 	var raw struct {
 		BMI    string `json:"bmi"`
 		Weight string `json:"weight"`
 		Height string `json:"height"`
 	}
-	if err := json.NewDecoder(res.Body).Decode(&raw); err != nil {
+	if err := json.Unmarshal(bodyBytes, &raw); err != nil {
 		return nil, err
 	}
 
-	// convert BMI string to float64
 	bmiValue, err := strconv.ParseFloat(raw.BMI, 64)
 	if err != nil {
 		return nil, err
 	}
 
-	// Step 2: Call /weight-category?bmi=<bmi string>
-	categoryURL := fmt.Sprintf("https://%s/weight-category?bmi=%s",
-		os.Getenv("BMI_API_HOST"), raw.BMI)
+	// Step 2: Call /weight-category?bmi={string}
+	categoryURL := fmt.Sprintf("https://%s/weight-category?bmi=%s", os.Getenv("BMI_API_HOST"), raw.BMI)
 
 	req2, err := http.NewRequest("GET", categoryURL, nil)
 	if err != nil {
@@ -61,15 +63,17 @@ func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
 	}
 	defer res2.Body.Close()
 
-	// decode /weight-category response
+	bodyBytes2, _ := io.ReadAll(res2.Body)
+	fmt.Println("📦 /weight-category raw response:", string(bodyBytes2))
+
 	var categoryResp struct {
 		WeightCategory string `json:"weightCategory"`
 	}
-	if err := json.NewDecoder(res2.Body).Decode(&categoryResp); err != nil {
+	if err := json.Unmarshal(bodyBytes2, &categoryResp); err != nil {
 		return nil, err
 	}
 
-	// Combine all into final result
+	// Final result
 	result := &dto.BMIData{
 		BMI:            bmiValue,
 		Weight:         raw.Weight,
