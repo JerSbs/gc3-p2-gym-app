@@ -12,7 +12,7 @@ import (
 )
 
 func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
-	// Step 1: Call /metric
+	// ✅ Step 1: Call /metric
 	metricURL := fmt.Sprintf("https://%s/metric?weight=%.2f&height=%.2f",
 		os.Getenv("BMI_API_HOST"), weight, height)
 
@@ -20,8 +20,8 @@ func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Add("x-rapidapi-key", os.Getenv("BMI_API_KEY"))
-	req.Header.Add("x-rapidapi-host", os.Getenv("BMI_API_HOST"))
+	req.Header.Set("x-rapidapi-key", os.Getenv("BMI_API_KEY"))
+	req.Header.Set("x-rapidapi-host", os.Getenv("BMI_API_HOST"))
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -29,7 +29,6 @@ func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
 	}
 	defer res.Body.Close()
 
-	// Read and log raw body (for debugging if needed)
 	bodyBytes, _ := io.ReadAll(res.Body)
 	fmt.Println("📦 /metric raw response:", string(bodyBytes))
 
@@ -42,20 +41,21 @@ func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
 		return nil, err
 	}
 
-	bmiValue, err := strconv.ParseFloat(raw.BMI, 64)
+	bmiFloat, err := strconv.ParseFloat(raw.BMI, 64)
 	if err != nil {
 		return nil, err
 	}
 
-	// Step 2: Call /weight-category?bmi={string}
-	categoryURL := fmt.Sprintf("https://%s/weight-category?bmi=%s", os.Getenv("BMI_API_HOST"), raw.BMI)
+	// ✅ Step 2: Call /weight-category?bmi=<bmi_string>
+	categoryURL := fmt.Sprintf("https://%s/weight-category?bmi=%s",
+		os.Getenv("BMI_API_HOST"), raw.BMI)
 
 	req2, err := http.NewRequest("GET", categoryURL, nil)
 	if err != nil {
 		return nil, err
 	}
-	req2.Header.Add("x-rapidapi-key", os.Getenv("BMI_API_KEY"))
-	req2.Header.Add("x-rapidapi-host", os.Getenv("BMI_API_HOST"))
+	req2.Header.Set("x-rapidapi-key", os.Getenv("BMI_API_KEY"))
+	req2.Header.Set("x-rapidapi-host", os.Getenv("BMI_API_HOST"))
 
 	res2, err := http.DefaultClient.Do(req2)
 	if err != nil {
@@ -73,13 +73,10 @@ func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
 		return nil, err
 	}
 
-	// Final result
-	result := &dto.BMIData{
-		BMI:            bmiValue,
+	return &dto.BMIData{
+		BMI:            bmiFloat,
 		Weight:         raw.Weight,
 		Height:         raw.Height,
 		WeightCategory: categoryResp.WeightCategory,
-	}
-
-	return result, nil
+	}, nil
 }
