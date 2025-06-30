@@ -1,7 +1,7 @@
 package dto
 
 type BMIData struct {
-	BMI float64 `json:"bmi"`
+	BMI string `json:"bmi"`
 }
 
 type UserBMIResponse struct {
