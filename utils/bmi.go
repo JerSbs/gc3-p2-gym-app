@@ -12,7 +12,7 @@ import (
 )
 
 func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
-	// ✅ Step 1: Call /metric
+	// Step 1: Call /metric to get BMI
 	metricURL := fmt.Sprintf("https://%s/metric?weight=%.2f&height=%.2f",
 		os.Getenv("BMI_API_HOST"), weight, height)
 
@@ -30,7 +30,7 @@ func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
 	defer res.Body.Close()
 
 	bodyBytes, _ := io.ReadAll(res.Body)
-	fmt.Println("📦 /metric raw response:", string(bodyBytes))
+	fmt.Println("📦 /metric raw response:", string(bodyBytes)) // ← can remove after test
 
 	var raw struct {
 		BMI    string `json:"bmi"`
@@ -46,7 +46,7 @@ func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
 		return nil, err
 	}
 
-	// ✅ Step 2: Call /weight-category?bmi=<bmi_string>
+	// Step 2: Call /weight-category?bmi=<raw.BMI> (as string!)
 	categoryURL := fmt.Sprintf("https://%s/weight-category?bmi=%s",
 		os.Getenv("BMI_API_HOST"), raw.BMI)
 
@@ -64,7 +64,7 @@ func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
 	defer res2.Body.Close()
 
 	bodyBytes2, _ := io.ReadAll(res2.Body)
-	fmt.Println("📦 /weight-category raw response:", string(bodyBytes2))
+	fmt.Println("📦 /weight-category raw response:", string(bodyBytes2)) // ← can remove after test
 
 	var categoryResp struct {
 		WeightCategory string `json:"weightCategory"`
@@ -73,6 +73,7 @@ func GetBMIFromAPI(weight, height float64) (*dto.BMIData, error) {
 		return nil, err
 	}
 
+	// Combine both responses
 	return &dto.BMIData{
 		BMI:            bmiFloat,
 		Weight:         raw.Weight,
