@@ -72,7 +72,7 @@ You have been tasked with building a RESTful API using Golang Echo and PostgreSQ
   - Deploy REST API yang sudah anda buat dengan menggunakan platform Heroku, dan pastikan mencantumkan url hasil deployment pada section expected result dan deployment notes.
 
 ## Expected Result
-- Web API dapat diakses pada _________ (isi dengan url hasil deployment anda).
+- Web API dapat diakses pada https://gc3-p2-gym-app-8a1fe5dad844.herokuapp.com/ (isi dengan url hasil deployment anda).
 - Web API memiliki endpoint sebagai berikut
   - <b>POST</b> /api/users/register
     - request body -> `{ name, email, password, weight, height }`
@@ -121,4 +121,4 @@ Deadline : Diinformasikan oleh instruktur saat briefing GC. Keterlambatan pengum
 Informasi yang tidak dicantumkan pada file ini harap dipastikan/ditanyakan kembali kepada instruktur. Kesalahan asumsi dari peserta mungkin akan menyebabkan kesalahan pemahaman requirement dan mengakibatkan pengurangan nilai.
 
 ### Deployment Notes
-Deployed url: _________ (isi dengan url hasil deployment anda)# gc3-p2-gym-app
+Deployed url: https://gc3-p2-gym-app-8a1fe5dad844.herokuapp.com/ (isi dengan url hasil deployment anda)# gc3-p2-gym-app
