@@ -1,11 +1,11 @@
 package service
 
 import (
-	"p2-graded-challenge-3-JerSbs/config"
-	"p2-graded-challenge-3-JerSbs/dto"
-	"p2-graded-challenge-3-JerSbs/models"
-	"p2-graded-challenge-3-JerSbs/repository"
-	"p2-graded-challenge-3-JerSbs/utils"
+	"gc3-p2-gym-app-JerSbs/config"
+	"gc3-p2-gym-app-JerSbs/dto"
+	"gc3-p2-gym-app-JerSbs/models"
+	"gc3-p2-gym-app-JerSbs/repository"
+	"gc3-p2-gym-app-JerSbs/utils"
 )
 
 func RegisterUser(input dto.RegisterRequest) (*models.User, error) {

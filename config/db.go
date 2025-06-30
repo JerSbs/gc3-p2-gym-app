@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"p2-graded-challenge-3-JerSbs/models" // Jangan lupa ganti nama project
+	"gc3-p2-gym-app-JerSbs/models" // Jangan lupa ganti nama project
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"

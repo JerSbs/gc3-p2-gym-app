@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"p2-graded-challenge-3-JerSbs/models"
+	"gc3-p2-gym-app-JerSbs/models"
 
 	"gorm.io/gorm"
 )

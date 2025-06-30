@@ -2,7 +2,7 @@ package repository
 
 import (
 	"gorm.io/gorm"
-	"p2-graded-challenge-3-JerSbs/models"
+	"gc3-p2-gym-app-JerSbs/models"
 )
 
 type WorkoutUpdateRepository interface {

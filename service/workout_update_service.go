@@ -5,9 +5,9 @@ import (
 
 	"gorm.io/gorm"
 
-	"p2-graded-challenge-3-JerSbs/config"
-	"p2-graded-challenge-3-JerSbs/dto"
-	"p2-graded-challenge-3-JerSbs/repository"
+	"gc3-p2-gym-app-JerSbs/config"
+	"gc3-p2-gym-app-JerSbs/dto"
+	"gc3-p2-gym-app-JerSbs/repository"
 )
 
 func UpdateWorkoutService(workoutID uint, userID uint, payload dto.WorkoutUpdateRequest) (*dto.WorkoutResponse, error) {

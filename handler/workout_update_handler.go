@@ -6,8 +6,8 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"p2-graded-challenge-3-JerSbs/dto"
-	"p2-graded-challenge-3-JerSbs/service"
+	"gc3-p2-gym-app-JerSbs/dto"
+	"gc3-p2-gym-app-JerSbs/service"
 )
 
 // UpdateWorkoutHandler godoc

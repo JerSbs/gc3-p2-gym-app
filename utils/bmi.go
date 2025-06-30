@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"p2-graded-challenge-3-JerSbs/dto"
+	"gc3-p2-gym-app-JerSbs/dto"
 )
 
 func CalculateBMI(weight, height float64) (*dto.BMIResponse, error) {

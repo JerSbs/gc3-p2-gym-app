@@ -7,8 +7,8 @@ import (
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
 
-	"p2-graded-challenge-3-JerSbs/config"
-	"p2-graded-challenge-3-JerSbs/routes"
+	"gc3-p2-gym-app-JerSbs/config"
+	"gc3-p2-gym-app-JerSbs/routes"
 )
 
 // @title Workout API

@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"p2-graded-challenge-3-JerSbs/service"
+	"gc3-p2-gym-app-JerSbs/service"
 
 	"github.com/labstack/echo/v4"
 )

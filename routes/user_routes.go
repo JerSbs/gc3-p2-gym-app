@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"p2-graded-challenge-3-JerSbs/handler"
-	"p2-graded-challenge-3-JerSbs/middleware"
+	"gc3-p2-gym-app-JerSbs/handler"
+	"gc3-p2-gym-app-JerSbs/middleware"
 
 	"github.com/labstack/echo/v4"
 )
