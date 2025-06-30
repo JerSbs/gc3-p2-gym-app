@@ -17,12 +17,16 @@ import (
 // @Failure 500 {object} map[string]string
 // @Router /api/users/bmi [get]
 func GetUserBMIHandler(c echo.Context) error {
-	userID := c.Get("user_id").(uint)
-
-	result, err := service.GetUserBMIService(userID)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "Failed to fetch BMI"})
+	userIDStr := c.Get("user_id")
+	userID, ok := userIDStr.(uint)
+	if !ok {
+		return c.JSON(http.StatusUnauthorized, echo.Map{"message": "unauthorized"})
 	}
 
-	return c.JSON(http.StatusOK, result)
+	data, err := service.GetUserBMIService(userID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, data)
 }

@@ -15,4 +15,5 @@ func RegisterUserRoutes(e *echo.Echo) {
 
 	userGroup.GET("/profile", handler.GetUserProfile, middleware.JWTMiddleware)
 	userGroup.GET("/bmi", handler.GetUserBMIHandler, middleware.JWTMiddleware)
+
 }
