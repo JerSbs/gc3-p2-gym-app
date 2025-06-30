@@ -1,14 +1,18 @@
 basePath: /
 definitions:
-  dto.BMIResponse:
+  dto.BMIData:
     properties:
       bmi:
+        example: 22.04
         type: number
       height:
+        example: "165.00"
         type: string
       weight:
+        example: "60.00"
         type: string
-      weight_category:
+      weightCategory:
+        example: Normal Weight
         type: string
     type: object
   dto.ExerciseCreateRequest:
@@ -113,6 +117,26 @@ definitions:
       password:
         type: string
       weight:
+        type: integer
+    type: object
+  dto.UserBMIResponse:
+    properties:
+      bmi_data:
+        $ref: '#/definitions/dto.BMIData'
+      email:
+        example: example@example.com
+        type: string
+      height:
+        example: 165
+        type: integer
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Test
+        type: string
+      weight:
+        example: 60
         type: integer
     type: object
   dto.WorkoutCreateRequest:
@@ -333,15 +357,16 @@ paths:
       - users
   /api/users/bmi:
     get:
-      description: Calculate BMI using user's weight and height from DB, call external
-        API
+      description: Retrieves user profile and calculates BMI using 3rd party API
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.BMIResponse'
-        "401":
-          description: Unauthorized
+            $ref: '#/definitions/dto.UserBMIResponse'
+        "404":
+          description: Not Found
           schema:
             additionalProperties:
               type: string
@@ -354,7 +379,7 @@ paths:
             type: object
       security:
       - BearerAuth: []
-      summary: Get BMI from 3rd party API
+      summary: Get authenticated user's BMI
       tags:
       - Users
   /api/users/login:

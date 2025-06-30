@@ -286,20 +286,23 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Calculate BMI using user's weight and height from DB, call external API",
+                "description": "Retrieves user profile and calculates BMI using 3rd party API",
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "Users"
                 ],
-                "summary": "Get BMI from 3rd party API",
+                "summary": "Get authenticated user's BMI",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.BMIResponse"
+                            "$ref": "#/definitions/dto.UserBMIResponse"
                         }
                     },
-                    "401": {
-                        "description": "Unauthorized",
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -693,20 +696,24 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dto.BMIResponse": {
+        "dto.BMIData": {
             "type": "object",
             "properties": {
                 "bmi": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 22.04
                 },
                 "height": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "165.00"
                 },
                 "weight": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "60.00"
                 },
-                "weight_category": {
-                    "type": "string"
+                "weightCategory": {
+                    "type": "string",
+                    "example": "Normal Weight"
                 }
             }
         },
@@ -864,6 +871,34 @@ const docTemplate = `{
                 },
                 "weight": {
                     "type": "integer"
+                }
+            }
+        },
+        "dto.UserBMIResponse": {
+            "type": "object",
+            "properties": {
+                "bmi_data": {
+                    "$ref": "#/definitions/dto.BMIData"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "example@example.com"
+                },
+                "height": {
+                    "type": "integer",
+                    "example": 165
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Test"
+                },
+                "weight": {
+                    "type": "integer",
+                    "example": 60
                 }
             }
         },

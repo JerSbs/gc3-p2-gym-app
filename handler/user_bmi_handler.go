@@ -14,10 +14,10 @@ import (
 // @Tags Users
 // @Security BearerAuth
 // @Produce json
-// @Success 200 {object} service.UserBMIResult
+// @Success 200 {object} dto.UserBMIResponse
 // @Failure 404 {object} map[string]string
 // @Failure 500 {object} map[string]string
-// @Router /api/users [get]
+// @Router /api/users/bmi [get]
 func GetUserBMIHandler(c echo.Context) error {
 	userID := c.Get("user_id").(uint)
 
