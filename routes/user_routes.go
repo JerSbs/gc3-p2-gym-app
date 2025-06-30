@@ -12,7 +12,7 @@ func RegisterUserRoutes(e *echo.Echo) {
 
 	userGroup.POST("/register", handler.RegisterUserHandler)
 	userGroup.POST("/login", handler.LoginUserHandler)
-	userGroup.GET("", handler.GetUserProfile, middleware.JWTMiddleware)
-	userGroup.GET("/bmi", handler.GetUserBMIHandler)
 
+	userGroup.GET("/profile", handler.GetUserProfile, middleware.JWTMiddleware)
+	userGroup.GET("/bmi", handler.GetUserBMIHandler, middleware.JWTMiddleware)
 }

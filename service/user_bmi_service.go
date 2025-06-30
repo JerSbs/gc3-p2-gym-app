@@ -2,12 +2,20 @@ package service
 
 import (
 	"gc3-p2-gym-app-JerSbs/config"
-	"gc3-p2-gym-app-JerSbs/dto"
 	"gc3-p2-gym-app-JerSbs/models"
 	"gc3-p2-gym-app-JerSbs/utils"
 )
 
-func GetUserBMIService(userID uint) (*dto.BMIResponse, error) {
+type UserBMIResult struct {
+	ID      uint   `json:"id"`
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	Weight  int    `json:"weight"`
+	Height  int    `json:"height"`
+	BMIData string `json:"bmi_data"`
+}
+
+func GetUserBMIService(userID uint) (*UserBMIResult, error) {
 	db := config.GetDB()
 
 	var user models.User
@@ -15,11 +23,18 @@ func GetUserBMIService(userID uint) (*dto.BMIResponse, error) {
 		return nil, ErrNotFound
 	}
 
-	// Call external API from utils
-	bmiResp, err := utils.CalculateBMI(float64(user.Weight), float64(user.Height)/100) // convert cm to meter
+	bmiData, err := utils.GetBMIFromAPI(float64(user.Weight), float64(user.Height))
 	if err != nil {
-		return nil, ErrInternal
+		return nil, ErrExternalAPI
 	}
 
-	return bmiResp, nil
+	result := &UserBMIResult{
+		ID:      user.ID,
+		Name:    user.FullName,
+		Email:   user.Email,
+		Weight:  user.Weight,
+		Height:  user.Height,
+		BMIData: bmiData,
+	}
+	return result, nil
 }

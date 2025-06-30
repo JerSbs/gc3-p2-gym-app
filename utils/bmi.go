@@ -1,38 +1,34 @@
 package utils
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
-	"gc3-p2-gym-app-JerSbs/dto"
 )
 
-func CalculateBMI(weight, height float64) (*dto.BMIResponse, error) {
-	url := fmt.Sprintf("https://body-mass-index-bmi-calculator.p.rapidapi.com/metric?weight=%.2f&height=%.2f", weight, height)
+func GetBMIFromAPI(weight, height float64) (string, error) {
+	url := fmt.Sprintf("https://%s/metric?weight=%.2f&height=%.2f",
+		os.Getenv("BMI_API_HOST"), weight, height)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	req.Header.Add("x-rapidapi-key", os.Getenv("RAPID_API_KEY"))
-	req.Header.Add("x-rapidapi-host", "body-mass-index-bmi-calculator.p.rapidapi.com")
+	req.Header.Add("x-rapidapi-key", os.Getenv("BMI_API_KEY"))
+	req.Header.Add("x-rapidapi-host", os.Getenv("BMI_API_HOST"))
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	defer res.Body.Close()
 
-	body, _ := io.ReadAll(res.Body)
-
-	var bmiResp dto.BMIResponse
-	err = json.Unmarshal(body, &bmiResp)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	return &bmiResp, nil
+	return string(body), nil
 }

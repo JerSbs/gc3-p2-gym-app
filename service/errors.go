@@ -15,6 +15,7 @@ var (
 	ErrUnauthorized       = errors.New("unauthorized")
 	ErrForbidden          = errors.New("forbidden: you do not have access")
 	ErrNotFound           = errors.New("resource not found")
+	ErrExternalAPI        = errors.New("external API error")
 	ErrInternal           = errors.New("internal server error")
 )
 
